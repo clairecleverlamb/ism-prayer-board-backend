@@ -21,11 +21,11 @@ const daySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Meal"
     },
-    first_snack: {
+    firstSnack: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Meal"
     },
-    second_snack: {
+    secondSnack: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Meal"
     },

@@ -14,4 +14,13 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 })
+
+router.get('/', async (req, res) => {
+    try {
+        const meals = await Meal.find({owner: req.user._id });
+        res.status(200).json(meals);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
 module.exports = router;

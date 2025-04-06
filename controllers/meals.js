@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-})
+});
 
 router.get('/', async (req, res) => {
     try {
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-})
+});
 
 router.get('/:mealId', async (req, res) => {
     try {
@@ -32,7 +32,43 @@ router.get('/:mealId', async (req, res) => {
         console.log(error);
         res.status(500).json({ error: error.message });
     }
-})
+});
 
+router.put('/:mealId', async (req, res) => {
+    try {
+        const meal = await Meal.findById(req.params.mealId);
+
+        if(!meal.owner.equals(req.user._id)) {
+            return res.status(403).send('Access denied.');
+        }
+
+        const updatedMeal = await Meal.findByIdAndUpdate(
+            req.params.mealId,
+            req.body,
+            { new: true }
+        )
+
+        updatedMeal._doc.owner = req.user;
+
+        res.status(200).json(updatedMeal);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.delete('/:mealId', async (req, res) => {
+    try {
+        const meal = await Meal.findById(req.params.mealId);
+        if(!meal.owner.equals(req.user._id)) {
+            return res.status(403).send('Access denied!');
+        }
+
+        const deletedMeal = await Meal.findByIdAndDelete(req.params.mealId);
+        res.status(200).json(deletedMeal);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = router;

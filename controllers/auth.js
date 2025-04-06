@@ -17,10 +17,21 @@ router.post('/sign-up', async (req, res) => {
             return res.status(409).json({
                 err: 'Username already taken'
             });
+        };
+
+        const emailInDatabase = await User.findOne({
+            email: req.body.email
+        });
+
+        if(emailInDatabase) {
+            return res.status(409).json({
+                err: 'Email already taken'
+            });
         }
 
         const user = await User.create({
             username: req.body.username,
+            email: req.body.email,
             hashedPassword: bcrypt.hashSync(
                 req.body.password, 
                 saltRounds
@@ -32,10 +43,7 @@ router.post('/sign-up', async (req, res) => {
             _id: user._id
         };
 
-        const token = jwt.sign(
-            {payload},
-            process.env.JWT_SECRET
-        )
+        const token = jwt.sign({ payload }, process.env.JWT_SECRET);
 
         res.status(201).json({ token });
     } catch (error) {

@@ -23,4 +23,16 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 })
+
+router.get('/:mealId', async (req, res) => {
+    try {
+        const meal = await Meal.findById(req.params.mealId);
+        res.status(200).json(meal);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+})
+
+
 module.exports = router;

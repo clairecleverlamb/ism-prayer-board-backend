@@ -33,7 +33,8 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
-router.put('/profile', async (req, res) => {
+// PUT /users/update "update the authenticated user's profile"
+router.put('/update', async (req, res) => {
     try {
         const userId = req.user._id;
         const { username, email, bio, avatar } = req.body;

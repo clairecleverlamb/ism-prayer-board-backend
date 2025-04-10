@@ -12,6 +12,14 @@ const userSchema = new mongoose.Schema({
     hashedPassword: {
         type: String,
         required: true
+    },
+    bio: {
+        type: String, 
+        required: false
+    },
+    avatar: {
+        type: String,
+        required: false
     }
 });
 

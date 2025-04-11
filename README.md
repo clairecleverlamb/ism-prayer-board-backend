@@ -32,6 +32,7 @@ This is the **back-end API** for [Nom Nom Board](https://nom-nom-board-frontend.
 | 🖥️ Front-End Repo | [Nom Nom Board – Front-End](https://github.com/skovakina/nom-nom-board-frontend) |
 | 🌐 Deployed App | [Live App](https://nom-nom-board-frontend.vercel.app/) |
 | 📄 Project Planning Docs | [Trello Board](https://trello.com/b/sNXMxBB3/nomnomboard) |
+| 🖼 Wireframe | [Figma](https://www.figma.com/design/oBZIDrrqTkoFsU83ujiCrj/Meal-Planner?node-id=0-1&p=f&t=31HeWf8CMGbXqI0m-0) |
 
 ---
 

@@ -16,7 +16,7 @@ This is the **back-end API** for [Nom Nom Board](https://nom-nom-board-frontend.
 
 - ✅ User authentication (JWT)
 - ✅ SignUp, SignIn, and LogOut
-- ✅ Full CRUD for creating, reading, updating and deleting meals
+- ✅ Full CRUD for creating, reading, updating, deleting Meals and Days
 - ✅ Drag & Drop feature for easy meal planning for a day
 - ✅ Authorization for user-created content
 - ✅ MongoDB & Mongoose-based schema relationships
@@ -31,7 +31,7 @@ This is the **back-end API** for [Nom Nom Board](https://nom-nom-board-frontend.
 |---------|-----|
 | 🖥️ Front-End Repo | [Nom Nom Board – Front-End](https://github.com/skovakina/nom-nom-board-frontend) |
 | 🌐 Deployed App | [Live App](https://nom-nom-board-frontend.vercel.app/) |
-| 📄 Project Planning Docs | [Planning Docs](https://trello.com/b/sNXMxBB3/nomnomboard) |
+| 📄 Project Planning Docs | [Trello Board](https://trello.com/b/sNXMxBB3/nomnomboard) |
 
 ---
 

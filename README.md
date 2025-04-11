@@ -1,6 +1,6 @@
 # 🍽️ Nom Nom Board – Back-End
 
-This is the **back-end API** for [Nom Nom Board](nom-nom-board-frontend.vercel.app), a full-stack collaborative platform for food lovers to share and discover recipes. Built with **Node.js**, **Express**, and **MongoDB**, it provides secure JWT-based authentication and full CRUD functionality for users and recipes.
+This is the **back-end API** for [Nom Nom Board](https://nom-nom-board-frontend.vercel.app/), a full-stack collaborative platform for food lovers to share and discover recipes. Built with **Node.js**, **Express**, and **MongoDB**, it provides secure JWT-based authentication and full CRUD functionality for users and recipes.
 
 > For the full experience, check out the [front-end repository](https://github.com/skovakina/nom-nom-board-frontend).
 
@@ -30,7 +30,7 @@ This is the **back-end API** for [Nom Nom Board](nom-nom-board-frontend.vercel.a
 | Resource | URL |
 |---------|-----|
 | 🖥️ Front-End Repo | [Nom Nom Board – Front-End](https://github.com/skovakina/nom-nom-board-frontend) |
-| 🌐 Deployed App | [Live App](nom-nom-board-frontend.vercel.app) |
+| 🌐 Deployed App | [Live App](https://nom-nom-board-frontend.vercel.app/) |
 | 📄 Project Planning Docs | [Planning Docs](https://trello.com/b/sNXMxBB3/nomnomboard) |
 
 ---

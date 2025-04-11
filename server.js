@@ -21,13 +21,7 @@ mongoose.connection.on("connected", () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}`);
 });
 
-const corsOptions = {
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(logger("dev"));
 
@@ -37,6 +31,8 @@ app.use("/test-jwt", testJwtRouter);
 app.use("/meals", verifyToken, mealsRouter);
 app.use("/days", verifyToken, daysRouter);
 
-app.listen(3000, () => {
-  console.log("The express app is ready!");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`The express app is ready on port ${PORT}!`);
 });

@@ -5,6 +5,10 @@ const prayerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  ministryGroup:{
+    type: String, 
+    default:"",
+  },
   content: {
     type: String,
   },

@@ -1,4 +1,4 @@
-# Ism-Prayer-Board –Backend
+# Ism-Prayer-Board Backend
 
 ---
 

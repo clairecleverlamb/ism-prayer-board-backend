@@ -1,22 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const Prayer = require('../models/prayer');
+const verifyToken = require('../middlewares/verify-token');
 
 // POST /api/prayers - Create new prayer card
 router.post('/', async (req, res) => {
-  try {
-    const { studentName, prayerRequest } = req.body;
-    const prayer = await Prayer.create({
-      studentName,
-      prayerRequest,
-      createdBy: req.user._id,
-    });
-    res.status(201).json(prayer);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
+    try {
+      const { studentName, ministryGroup, content } = req.body;
+      const fakeUserId = "6630e4a00000000000000000"; // <<-- dummy ObjectId
+  
+      const prayer = await Prayer.create({
+        studentName,
+        ministryGroup,
+        content,
+        createdBy: fakeUserId,
+      });
+  
+      res.status(201).json(prayer);
+    } catch (error) {
+      console.error("CREATE PRAYER ERROR:", error);
+      res.status(500).json({ error: error.message });
+    }
 });
+  
 
 // GET /api/prayers - Get all prayer cards
 router.get('/', async (req, res) => {

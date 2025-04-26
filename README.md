@@ -6,7 +6,7 @@
 
 | Resource | URL |
 |---------|-----|
-| 🖥️ Front-End Repo | [Nom Nom Board – Front-End](https://github.com/clairecleverlamb/ism-prayer-board-frontend) |
+| 🖥️ Front-End Repo | [PrayerBoard - Frontend](https://github.com/clairecleverlamb/ism-prayer-board-frontend) |
 | 🌐 Deployed App | [Live App](https://nom-nom-board-frontend.vercel.app/) |
 
 

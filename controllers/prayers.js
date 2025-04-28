@@ -69,18 +69,20 @@ router.patch('/:id/pray', async (req, res) => {
 
 // DELETE /api/prayers/:id - Delete a prayer (if needed)
 router.delete('/:id', async (req, res) => {
-  try {
-    const prayer = await Prayer.findById(req.params.id);
-    if (!prayer) return res.status(404).json({ error: 'Prayer not found' });
-    if (prayer.createdBy.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'Unauthorized' });
+    try {
+      const prayer = await Prayer.findById(req.params.id);
+  
+      if (!prayer) {
+        return res.status(404).json({ error: 'Prayer not found' });
+      }
+  
+      await prayer.deleteOne();  
+      res.json({ message: 'Prayer deleted successfully' });
+    } catch (error) {
+      console.error("DELETE PRAYER ERROR:", error);
+      res.status(500).json({ error: error.message });
     }
-    await Prayer.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Prayer deleted' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-});
+  });
+  
 
 module.exports = router;

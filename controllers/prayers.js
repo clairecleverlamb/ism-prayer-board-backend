@@ -5,7 +5,7 @@ const Prayer = require('../models/prayer');
 // POST /api/prayers
 router.post('/', async (req, res) => {
   try {
-    const { studentName, ministryGroup, content, createdBy } = req.body;
+    const { studentName, ministryGroup, status, content, createdBy } = req.body;
 
     if (!createdBy) {
       return res.status(400).json({ error: 'createdBy userId is required' });
@@ -14,6 +14,7 @@ router.post('/', async (req, res) => {
     const prayer = await Prayer.create({
       studentName,
       ministryGroup,
+      status,
       content,
       createdBy,
     });

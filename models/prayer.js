@@ -9,6 +9,9 @@ const prayerSchema = new mongoose.Schema({
     type: String, 
     default:"",
   },
+  status: {
+    type: String,
+  },
   content: {
     type: String,
   },

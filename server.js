@@ -3,9 +3,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const logger = require("morgan");
+const cron = require('node-cron');
 
 const authRouter = require("./controllers/auth");     
 const prayersRouter = require("./controllers/prayers"); 
+const Prayer = require('./models/prayer'); 
+
 
 dotenv.config();
 
@@ -27,6 +30,16 @@ app.use(logger("dev"));
 app.use("/auth", authRouter);            
 app.use("/prayers", prayersRouter);   
 
+cron.schedule('0 0 * * *', async () => {
+  console.log('Running daily reset of prayer counts...');
+
+  try {
+    await Prayer.updateMany({}, { $set: { prayedBy: [] } }); 
+    console.log('Prayer counts have been reset!');
+  } catch (error) {
+    console.error('Error resetting prayer counts:', error);
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

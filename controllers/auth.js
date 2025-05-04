@@ -79,7 +79,7 @@ router.get(
       console.log("Token cookie set. Redirecting to frontend.");
 
       // Redirect to frontend
-      res.redirect(process.env.FRONTEND_URL || "http://localhost:5173");
+      res.redirect(process.env.FRONTEND_URL);
     } catch (err) {
       console.error("OAuth Callback Error:", err);
       res.status(500).json({ error: "OAuth login failed" });

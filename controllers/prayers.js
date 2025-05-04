@@ -1,22 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const Prayer = require('../models/prayer');
+const requireAuth = require('../middlewares/requireAuth'); 
 
 // POST /api/prayers
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   try {
-    const { studentName, ministryGroup, status, content, createdBy } = req.body;
-
-    if (!createdBy) {
-      return res.status(400).json({ error: 'createdBy userId is required' });
-    }
+    const { studentName, ministryGroup, status, content } = req.body;
 
     const prayer = await Prayer.create({
       studentName,
       ministryGroup,
       status,
       content,
-      createdBy,
+      createdBy: req.user.id, // pulled from decoded JWT
     });
 
     res.status(201).json(prayer);
@@ -38,15 +35,12 @@ router.get('/', async (req, res) => {
 });
 
 // PATCH /api/prayers/:id/pray
-router.patch('/:id/pray', async (req, res) => {
+router.patch('/:id/pray', requireAuth, async (req, res) => {
   try {
     const prayer = await Prayer.findById(req.params.id);
     if (!prayer) return res.status(404).json({ error: 'Prayer not found' });
 
-    const { userId } = req.body;
-    if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
-    }
+    const userId = req.user.id;
 
     const alreadyPrayed = prayer.prayedBy.some(
       (id) => id.toString() === userId
@@ -68,22 +62,21 @@ router.patch('/:id/pray', async (req, res) => {
   }
 });
 
-// DELETE /api/prayers/:id - Delete a prayer (if needed)
+// DELETE /api/prayers/:id - All users can delete
 router.delete('/:id', async (req, res) => {
-    try {
-      const prayer = await Prayer.findById(req.params.id);
-  
-      if (!prayer) {
-        return res.status(404).json({ error: 'Prayer not found' });
-      }
-  
-      await prayer.deleteOne();  
-      res.json({ message: 'Prayer deleted successfully' });
-    } catch (error) {
-      console.error("DELETE PRAYER ERROR:", error);
-      res.status(500).json({ error: error.message });
+  try {
+    const prayer = await Prayer.findById(req.params.id);
+
+    if (!prayer) {
+      return res.status(404).json({ error: 'Prayer not found' });
     }
-  });
-  
+
+    await prayer.deleteOne();
+    res.json({ message: 'Prayer deleted successfully' });
+  } catch (error) {
+    console.error("DELETE PRAYER ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;

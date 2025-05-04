@@ -26,14 +26,23 @@ mongoose.connection.on("connected", () => {
 app.use(cookieParser());
 app.use(passport.initialize());
 
-// Global middlewares
+const allowedOrigins = [
+  "https://ism-prayer-board-frontend.vercel.app",
+  "http://localhost:5173"
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173', 
-    'https://ism-prayer-board-frontend.vercel.app' 
-  ],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
+
+
 app.use(express.json());
 app.use(logger("dev"));
 
@@ -43,7 +52,7 @@ app.use("/prayers", prayersRouter);
 
 
 app.get("/", (req, res) => {
-  res.send("ISM Prayer Board backend is running ✅");
+  res.send("ISM Prayer Board backend is running");
 });
 
 

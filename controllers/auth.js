@@ -4,12 +4,19 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const router = express.Router();
 
+// List of admin emails
+const ADMIN_EMAILS = [
+  'shufei.lei@acts2.network',
+  'admin2@acts2.network',
+  'admin3@acts2.network',
+];
+
 // Trigger Google login
 router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-    prompt: 'select_account' 
+    prompt: 'select_account',
   })
 );
 
@@ -38,8 +45,12 @@ router.get(
           googleId: profile.id,
           email,
           name: profile.name,
-          isAdmin: email === 'shufei.lei@acts2.network', // Define admin
+          isAdmin: ADMIN_EMAILS.includes(email),
         });
+      } else if (user.isAdmin !== ADMIN_EMAILS.includes(email)) {
+        // Update isAdmin if necessary
+        user.isAdmin = ADMIN_EMAILS.includes(email);
+        await user.save();
       }
 
       // Sign JWT
@@ -57,12 +68,11 @@ router.get(
       // Set secure cookie
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // only secure in prod
+        secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
         maxAge: 3600000,
       });
 
-      // Redirect to frontend
       res.redirect(process.env.FRONTEND_URL || 'http://localhost:5173');
     } catch (err) {
       console.error('OAuth Callback Error:', err);

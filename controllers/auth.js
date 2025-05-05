@@ -72,8 +72,8 @@ router.get(
       // Set cookie (critical settings for cross-origin)
       res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // secure: true only on HTTPS
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: true, 
+        sameSite: "None" ,
         maxAge: 3600000,
       });
 

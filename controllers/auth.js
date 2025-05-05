@@ -39,6 +39,7 @@ router.get(
 
       // Only allow Acts2 emails
       if (!email.endsWith("@acts2.network")) {
+        console.warn("Blocked login attempt from:", email);
         return res.status(403).json({ error: "Only Acts2 emails allowed." });
       }
 
@@ -82,7 +83,6 @@ router.get(
       res.redirect(process.env.FRONTEND_URL);
     } catch (err) {
       console.error("OAuth Callback Error:", err);
-      res.status(500).json({ error: "OAuth login failed" });
       res.redirect(`${process.env.FRONTEND_URL}?error=OAuthError`);
     }
   }

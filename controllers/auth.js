@@ -83,6 +83,7 @@ router.get(
     } catch (err) {
       console.error("OAuth Callback Error:", err);
       res.status(500).json({ error: "OAuth login failed" });
+      res.redirect(`${process.env.FRONTEND_URL}?error=OAuthError`);
     }
   }
 );

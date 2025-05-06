@@ -93,7 +93,7 @@ router.get("/me", async (req, res) => {
   const token = req.cookies.token;
 
   if (!token) {
-    console.warn("⚠️ No token found in cookies");
+    console.warn("No token found in cookies");
     return res.status(401).json({ message: "Not authenticated" });
   }
 

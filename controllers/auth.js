@@ -22,11 +22,19 @@ router.get(
     prompt: "select_account",
   })
 );
-
-// Google OAuth Callback
 router.get(
   "/google/callback",
-  passport.authenticate("google", { session: false, failureRedirect: "/" }),
+  (req, res, next) => {
+    passport.authenticate("google", { session: false }, (err, user, info) => {
+      if (err || !user) {
+        console.error("Google OAuth failed:", err || info);
+        return res.redirect(`${process.env.FRONTEND_URL}?error=OAuthFailed`);
+      }
+
+      req.user = user; // Inject user manually
+      next(); // Proceed to final callback
+    })(req, res, next);
+  },
   async (req, res) => {
     try {
       const profile = req.user;
@@ -37,13 +45,11 @@ router.get(
 
       const email = profile.email;
 
-      // Only allow Acts2 emails
       if (!email.endsWith("@acts2.network")) {
         console.warn("Blocked login attempt from:", email);
         return res.status(403).json({ error: "Only Acts2 emails allowed." });
       }
 
-      // Find or create user
       let user = await User.findOne({ email });
       if (!user) {
         user = await User.create({
@@ -57,7 +63,6 @@ router.get(
         await user.save();
       }
 
-      // Sign JWT
       const token = jwt.sign(
         {
           id: user._id,
@@ -69,17 +74,14 @@ router.get(
         { expiresIn: "1h" }
       );
 
-      // Set cookie (critical settings for cross-origin)
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true, 
-        sameSite: "None" ,
+        secure: true,
+        sameSite: "None",
         maxAge: 3600000,
       });
 
       console.log("Token cookie set. Redirecting to frontend.");
-
-      // Redirect to frontend
       res.redirect(process.env.FRONTEND_URL);
     } catch (err) {
       console.error("OAuth Callback Error:", err);

@@ -28,7 +28,7 @@ app.use(passport.initialize());
 
 const allowedOrigins = [
   "https://ism-prayer-board-frontend.vercel.app",
-  "https://ismprayerboard.com",
+  "https://www.ismprayerboard.com",
   "https://api.ismprayerboard.com",
   "http://localhost:5173"
 ];

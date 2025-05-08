@@ -45,7 +45,8 @@ router.get(
 
       const email = profile.email;
 
-      if (!email.endsWith("@acts2.network")) {
+      if (!email.endsWith("@acts2.network") && !email.endsWith('@gmail.com')
+      ) {
         console.warn("Blocked login attempt from:", email);
         return res.status(403).json({ error: "Only Acts2 emails allowed." });
       }

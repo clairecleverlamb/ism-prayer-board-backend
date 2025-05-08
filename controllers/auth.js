@@ -75,10 +75,12 @@ router.get(
         { expiresIn: "1h" }
       );
 
+      const isProduction = process.env.NODE_ENV === 'production';
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "None",
+        sameSite: isProduction ? "None" : "Lax",
+        path:'/',
         maxAge: 3600000,
       });
 

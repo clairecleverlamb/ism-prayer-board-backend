@@ -12,10 +12,19 @@ passport.use(new GoogleStrategy(
     try {
       const email = profile.emails?.[0]?.value;
 
-      if (!email || !email.endsWith('@acts2.network')) {
+      if (!email) {
+        return done(null, false, { message: 'Email not found in profile' });
+      }
+
+      // TEMP: Allow all @gmail.com and @acts2.network emails
+      if (
+        !email.endsWith('@acts2.network') &&
+        !email.endsWith('@gmail.com')
+      ) {
         return done(null, false, { message: 'Unauthorized domain' });
       }
 
+      // Successful login
       return done(null, {
         id: profile.id,
         email,

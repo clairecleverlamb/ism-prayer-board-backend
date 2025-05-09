@@ -26,7 +26,9 @@ router.post('/', requireAuth, async (req, res) => {
 // GET /api/prayers
 router.get('/', async (req, res) => {
   try {
-    const prayers = await Prayer.find().populate('createdBy prayedBy');
+    const prayers = await Prayer.find()
+    .sort({ createdAt: -1 })
+    .populate('createdBy prayedBy');
     res.json(prayers);
   } catch (error) {
     console.error(error);

@@ -13,7 +13,7 @@ router.post('/', requireAuth, async (req, res) => {
       ministryGroup,
       status,
       content,
-      createdBy: req.user.id, // pulled from decoded JWT
+      createdBy: req.user.id, 
     });
 
     res.status(201).json(prayer);
@@ -63,12 +63,19 @@ router.patch('/:id/pray', requireAuth, async (req, res) => {
 });
 
 // DELETE /api/prayers/:id - All users can delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
   try {
     const prayer = await Prayer.findById(req.params.id);
 
     if (!prayer) {
       return res.status(404).json({ error: 'Prayer not found' });
+    }
+
+    const isOwner = prayer.createdBy.toString() === req.user.id;
+    const isAdmin = req.user.isAdmin;
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ error: 'Forbidden: Not owner or admin' });
     }
 
     await prayer.deleteOne();

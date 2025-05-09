@@ -18,8 +18,7 @@ passport.use(new GoogleStrategy(
 
       // TEMP: Allow all @gmail.com and @acts2.network emails
       if (
-        !email.endsWith('@acts2.network') &&
-        !email.endsWith('@gmail.com')
+        !email.endsWith('@acts2.network')
       ) {
         return done(null, false, { message: 'Unauthorized domain' });
       }

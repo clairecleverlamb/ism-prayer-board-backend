@@ -69,6 +69,7 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`PrayerBoard server ready on port ${PORT}! `);

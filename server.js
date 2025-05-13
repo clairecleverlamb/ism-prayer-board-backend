@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const logger = require("morgan");
-const cron = require('node-cron');
+// const cron = require('node-cron');
 
 const authRouter = require("./controllers/auth");     
 const prayersRouter = require("./controllers/prayers"); 
@@ -58,17 +58,28 @@ app.get("/", (req, res) => {
 });
 
 
-cron.schedule('0 0 * * *', async () => {
-  console.log('Running daily reset of prayer counts...');
+// cron.schedule('0 0 * * *', async () => {
+//   console.log('Running daily reset of prayer counts...');
 
+//   try {
+//     await Prayer.updateMany({}, { $set: { prayedBy: [] } }); 
+//     console.log('Prayer counts have been reset!');
+//   } catch (error) {
+//     console.error('Error resetting prayer counts:', error);
+//   }
+// });
+
+
+app.get('/run-daily-reset', async (req, res) => {
   try {
-    await Prayer.updateMany({}, { $set: { prayedBy: [] } }); 
-    console.log('Prayer counts have been reset!');
+    await Prayer.updateMany({}, { $set: { prayedBy: [] } });
+    console.log('Manual trigger: Prayer counts reset!');
+    res.send('Manual reset done.');
   } catch (error) {
     console.error('Error resetting prayer counts:', error);
+    res.status(500).send('Error resetting prayers.');
   }
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
